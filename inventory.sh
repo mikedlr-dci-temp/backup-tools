@@ -17,7 +17,8 @@
 set -e 
 TEMPFILE=`mktemp`
 ( echo inventoryfile-0 directory: at `date` `pwd` ) > $TEMPFILE
-find $1 -type f -exec sha384sum {} +  >> $TEMPFILE
+cd $1
+find . -type f -exec sha384sum {} + | sort -k 2 >> $TEMPFILE
 cat $TEMPFILE 
 echo -----------------------------------------------
 echo inventory checksum `sha384sum $TEMPFILE | sed 's/ .*//'`

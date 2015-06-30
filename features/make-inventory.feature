@@ -3,7 +3,7 @@ In order to check if my backups have worked I would like a clear
 inventory file which lists all of the files in my directory.
 
 Scenario: record checksums for files
-Given that I am in the basic-test-data-directory
+Given that I have access to basic-test-data-directory
 when I run inventory on that directory
 then for each file the <filename> should be listed with the <checksum>
      | filename   | checksum                                                                                         |

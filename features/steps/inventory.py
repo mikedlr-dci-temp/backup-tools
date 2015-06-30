@@ -1,12 +1,14 @@
 import os, subprocess, re
+from behave import *
 
-@given(u'that I am in the basic-test-data-directory')
+@given(u'that I have access to basic-test-data-directory')
 def step_impl(context):
-    os.chdir("features/test-data")
+    assert os.path.isdir("features/test-data")
+    context.test_dir_path="features/test-data/basic-testdir"
 
 @when(u'I run inventory on that directory')
 def step_impl(context):
-    context.output=subprocess.check_output(["../../inventory.sh", "."])
+    context.output=subprocess.check_output(["./inventory.sh", context.test_dir_path])
 
 @then(u'for each file the <filename> should be listed with the <checksum>')
 def step_impl(context):
