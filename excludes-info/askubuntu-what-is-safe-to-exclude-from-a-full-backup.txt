@@ -1,0 +1,75 @@
+What is safe to exclude for a full system backup?
+
+http://askubuntu.com/questions/28477/what-is-safe-to-exclude-for-a-full-system-backup
+
+
+ 23
+down vote
+favorite
+20
+	
+
+I'm looking for a list which paths/files are safe to exclude for a full system/home backup.
+
+Considering that I have a list of installed packages.
+
+    /home/*/.thumbnails
+    /home/*/.cache
+    /home/*/.mozilla/firefox/*.default/Cache
+    /home/*/.mozilla/firefox/*.default/OfflineCache
+    /home/*/.local/share/Trash
+
+    /home/*/.gvfs/
+
+    /tmp/
+    /var/tmp/
+    not real folders but can cause severe problems when 'restoring'
+        /dev
+        /proc
+        /sys
+
+What about...
+
+    /var/ in general?
+    /var/backups/ - can get quite large
+    /var/log/ - does not require much space and can help for later comparison
+    /lost+found/
+
+
+
+
+
+down vote
+accepted
+	
+
+When I rsync my system to a backup partition, I exclude these:
+
+--exclude=/dev/* \
+--exclude=/home/*/.gvfs \
+--exclude=/home/*/.mozilla/firefox/*/Cache \
+--exclude=/home/*/.cache/chromium \
+--exclude=/home/*/.thumbnails \
+--exclude=/media/* \
+--exclude=/mnt/* \
+--exclude=/proc/* \
+--exclude=/sys/* \
+--exclude=/tmp/* \
+--exclude=/home/*/.local/share/Trash \
+--exclude=/etc/fstab \
+--exclude=/var/run/* \
+--exclude=/var/lock/* \
+--exclude=/lib/modules/*/volatile/.mounted \
+--exclude=/var/cache/apt/archives/* \
+
+This way I am able to boot into the backup partition the same way I can boot to the original one.
+
+So to sum up, I would suggest
+
+    not excluding /{dev,proc,media,...} themselves, just their contents
+
+    excluding /var/{run,lock}, and especially the big /var/cache/apt/archives/
+
+
+
+

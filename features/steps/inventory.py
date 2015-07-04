@@ -22,3 +22,24 @@ def step_impl(context):
     ex="emptydirectory"
     p= re.compile( ex, re.DOTALL )
     assert not p.match(context.output)
+
+
+@then(u'at the beginning of the file should be a header with the filetype')
+def step_impl(context):
+    ex="^inventoryfile-0"
+    p= re.compile( ex, re.DOTALL )
+    assert p.match(context.output)
+
+
+@then(u'in the header should be date information')
+def step_impl(context):
+    ex="^[^\n]*[0-9] [^\n]*[0-9][0-9][0-9][0-9]"
+    p= re.compile( ex, re.DOTALL )
+    assert p.match(context.output)
+
+
+@then(u'there should be a footer with a checksum')
+def step_impl(context):
+    ex=".*-----------------------\n.*inventory checksum [0-9a-f][0-9a-f][0-9a-f]*"
+    p= re.compile( ex, re.DOTALL )
+    assert p.match(context.output)

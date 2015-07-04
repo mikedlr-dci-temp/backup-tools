@@ -12,4 +12,9 @@ then for each file the <filename> should be listed with the <checksum>
      | ./randomfile | 3004c786f0513006058dfd6c593536365c103af3047d0346b87a8898565e0e75caf0c06d3d760b6915a375ed66a6591c |
 and "emptydirectory" should not be present
 
-
+Scenario: provide header and footer
+Given that I have access to basic-test-data-directory
+when I run inventory on that directory
+then at the beginning of the file should be a header with the filetype
+and in the header should be date information
+and there should be a footer with a checksum
