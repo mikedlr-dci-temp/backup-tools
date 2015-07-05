@@ -6,6 +6,7 @@ def step_impl(context):
     with open("inventory-file", 'w') as ivfile:
         subprocess.call(["./inventory.sh", context.test_dir_path], stdout=ivfile )
     assert os.path.isfile("inventory-file")
+    assert os.path.getsize("inventory-file") > 2
     context.inventory_path="inventory-file"
 
 @when(u'I run inventory -c on the inventory file')
@@ -18,11 +19,11 @@ def step_impl(context):
         context.check_output=e.output
         context.check_returncode=e.returncode
 
-@then(u'the inventory -c command should succeed')
+@then(u'the command should succeed')
 def step_impl(context):
     assert context.check_returncode == 0
 
-@then(u'the inventory -c command should fail')
+@then(u'the command should fail')
 def step_impl(context):
     assert ( int(context.check_returncode) and context.check_returncode > 0 )
 
