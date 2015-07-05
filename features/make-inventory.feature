@@ -16,5 +16,5 @@ Scenario: provide header and footer
 Given that I have access to basic-test-data-directory
 when I run inventory on that directory
 then at the beginning of the file should be a header with the filetype
-and in the header should be date information
+and in the header should be date information and the directory name
 and there should be a footer with a checksum

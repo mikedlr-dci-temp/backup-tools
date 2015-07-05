@@ -49,11 +49,12 @@ fi
 
 set -e
 TEMPFILE=`mktemp`
-( echo inventoryfile-0 directory: at `date` `pwd` ) > $TEMPFILE
-cd $1
-find . -type f -exec sha384sum {} + | sort -k 2 >> $TEMPFILE
-echo ----------------------------------------------- >> $TEMPFILE
-echo inventory checksum `sha384sum $TEMPFILE | sed 's/ .*//'` >> $TEMPFILE
+( echo inventoryfile-0 directory: at `date` `realpath "$1"` ) > $TEMPFILE
+( cd $1
+    find . -type f -exec sha384sum {} + | sort -k 2 >> $TEMPFILE
+    echo ----------------------------------------------- >> $TEMPFILE
+    echo inventory checksum `sha384sum $TEMPFILE | sed 's/ .*//'` >> $TEMPFILE 
+)
 if [ "" = "$OFILE" ]
 then
    cat $TEMPFILE
