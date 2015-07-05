@@ -17,8 +17,7 @@
 # Note that we use `"$@"' to let each command-line parameter expand to a
 # separate word. The quotes around `$@' are essential!
 # We need TEMP as the `eval set --' would nuke the return value of getopt.
-TEMP=`getopt -o o:i:c --long output:,input:,check \
-     -n 'inventory.sh' -- "$@"`
+TEMP=$(getopt -o o:i:c --long output:,input:,check -n 'inventory.sh' -- "$@" )
 
 if [ $? != 0 ] ; then echo "Argument parsing fail; terminating..." >&2 ; exit 1 ; fi
 
@@ -77,23 +76,26 @@ then
     then
 	head -n-2
     else
-	head -n-2 $IFILE
-    fi )| tail -n+2 | (cd $1; sha384sum -c - )
+	head -n-2 "$IFILE"
+    fi )| tail -n+2 | (cd "$1"; sha384sum -c - )
     SHASUMRES=$?
     exit $SHASUMRES
 fi
 
 set -e
-TEMPFILE=`mktemp`
-( echo inventoryfile-0 directory: at `date` `realpath "$1"` ) > $TEMPFILE
-( cd $1
-    find . -type f -exec sha384sum {} + | sort -k 2 >> $TEMPFILE
-    echo ----------------------------------------------- >> $TEMPFILE
-    echo inventory checksum `sha384sum $TEMPFILE | sed 's/ .*//'` >> $TEMPFILE 
+TEMPFILE=$(mktemp)
+( echo inventoryfile-0 directory: at "$(date) $(realpath "$1")" ) > "$TEMPFILE"
+( cd "$1"
+    {   find . -type f -exec sha384sum {} + | sort -k 2
+	echo -----------------------------------------------
+    } >> "$TEMPFILE"
+    #split to two lines to avid readig and writing at the same time
+    FOOT="inventory checksum $(sha384sum "$TEMPFILE" | sed 's/ .*//')"
+    echo "$FOOT" >>  "$TEMPFILE"
 )
 if [ "" = "$OFILE" ]
 then
-   cat $TEMPFILE
+   cat "$TEMPFILE"
 else
-   mv $TEMPFILE $OFILE
+   mv "$TEMPFILE" "$OFILE"
 fi
