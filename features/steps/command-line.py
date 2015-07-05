@@ -36,6 +36,24 @@ def step_impl(context):
         context.check_output=e.output
         context.check_returncode=e.returncode
 
+@when(u'I run inventory without -c or --check and with an input file')
+def step_impl(context):
+    try:
+        context.check_output=subprocess.check_output(["./inventory.sh", "-i", "filea", "-c"])
+        context.check_returncode=0
+    except subprocess.CalledProcessError as e:
+        context.check_output=e.output
+        context.check_returncode=e.returncode
+
+@when(u'I run inventory with -c and with an output file')
+def step_impl(context):
+    try:
+        context.check_output=subprocess.check_output(["./inventory.sh", "-c", "-o", "filea"])
+        context.check_returncode=0
+    except subprocess.CalledProcessError as e:
+        context.check_output=e.output
+        context.check_returncode=e.returncode
+
 @then(u'it should abort with a failure')
 def step_impl(context):
     assert ( int(context.check_returncode) and context.check_returncode > 0 )

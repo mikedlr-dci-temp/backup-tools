@@ -1,20 +1,27 @@
 Feature:
 Command line argument handling
 
-@wip
 Scenario: with -o argument create file 
 Given that I have access to basic-test-data-directory
 and that I have a target-file that doesn't exist
 when I run inventory on the test data with -o on the directory
 then the inventory file should be created
 
-@wip
 Scenario: too many -o arguments 
 Given nothing much
 when I run inventory with two -o arguments
 then it should abort with a failure
 
-@wip
+Scenario: input file when building inventory
+Given nothing much
+when I run inventory without -c or --check and with an input file
+then it should abort with a failure
+
+Scenario: output file when checking inventory
+Given nothing much
+when I run inventory with -c and with an output file
+then it should abort with a failure
+
 Scenario: with no arguments bomb out
 Given nothing much
 when I run inventory with no arguments
