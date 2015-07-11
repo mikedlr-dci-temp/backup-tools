@@ -30,11 +30,9 @@ def step_impl(context):
     p= re.compile( ex, re.DOTALL )
     assert p.match(context.output)
 
-@then(u'in the header should be date information and the directory name')
-
-@then(u'in the header should be date information')
+@then(u'in the header should be date information and the titled directory name')
 def step_impl(context):
-    ex="^[^\n]*[0-9] [^\n]*[0-9][0-9][0-9][0-9][^\n]*features/test-data/basic-testdir"
+    ex="^[^\n]*[0-9] [^\n]*[0-9][0-9][0-9][0-9][^\n]*directory:[^\n]*features/test-data/basic-testdir"
     p= re.compile( ex, re.DOTALL )
     assert p.match(context.output)
 
