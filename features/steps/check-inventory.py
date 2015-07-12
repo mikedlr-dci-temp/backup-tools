@@ -11,8 +11,18 @@ def step_impl(context):
 
 @when(u'I run inventory -c on the inventory file')
 def step_impl(context):
-    try: 
-        context.check_output=subprocess.check_output(["./inventory.sh", "-c", "-i", 
+    try:
+        context.check_output=subprocess.check_output(["./inventory.sh", "-c", "-i",
+                                                      context.inventory_path, context.test_dir_path])
+        context.check_returncode=0
+    except subprocess.CalledProcessError as e:
+        context.check_output=e.output
+        context.check_returncode=e.returncode
+
+@when(u'I run inventory -c -v on the inventory file')
+def step_impl(context):
+    try:
+        context.check_output=subprocess.check_output(["./inventory.sh", "-c", "-v", "-i",
                                                       context.inventory_path, context.test_dir_path])
         context.check_returncode=0
     except subprocess.CalledProcessError as e:
@@ -43,3 +53,10 @@ def step_impl(context):
 def step_impl(context):
     context.inventory_path="features/test-data/inventory-file-with-missing"
 
+@then(u'there should be no output')
+def step_impl(context):
+    assert context.check_output==""
+
+@then(u'there should be output showing that files are okay')
+def step_impl(context):
+    assert re.compile(r".*\./hi: OK\n", re.DOTALL).match(context.check_output)

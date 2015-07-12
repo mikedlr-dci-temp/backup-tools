@@ -17,19 +17,22 @@
 # Note that we use `"$@"' to let each command-line parameter expand to a
 # separate word. The quotes around `$@' are essential!
 # We need TEMP as the `eval set --' would nuke the return value of getopt.
-TEMP=$(getopt -o o:i:c --long output:,input:,check -n 'inventory.sh' -- "$@" )
+TEMP=$(getopt -o o:i:cv --long output:,input:,check,verbose -n 'inventory.sh' -- "$@" )
 
 if [ $? != 0 ] ; then echo "Argument parsing fail; terminating..." >&2 ; exit 1 ; fi
 
 # Note the quotes around `$TEMP': they are essential!
 eval set -- "$TEMP"
 
+
 OFILE=""
 IFILE=""
 CHECK="false"
+VERBOSE="false"
 while true ; do
 	case "$1" in
 		-c|--check) CHECK="true" ; shift ;;
+		-v|--verbose) VERBOSE="true" ; shift ;;
 		-o|--output)
 		    if [ "" != "$OFILE" ]
 		    then
@@ -67,6 +70,13 @@ fi
 
 if [  "true" = "$CHECK" ]
 then
+    if [ "false" = "$VERBOSE" ]
+    then
+	SHAOPTS="--check --quiet"
+    else
+	SHAOPTS="--check"
+    fi
+
     if [ "" != "$OFILE" ]
     then
 	echo "cannot give output file when checking inventory" >&2
@@ -77,19 +87,19 @@ then
 	head -n-2
     else
 	head -n-2 "$IFILE"
-    fi )| tail -n+2 | (cd "$1"; sha384sum -c - )
+    fi )| tail -n+2 | (cd "$1"; sha384sum $SHAOPTS - )
     SHASUMRES=$?
     exit $SHASUMRES
 fi
 
 set -e
 TEMPFILE=$(mktemp)
-( echo inventoryfile-0 at "$(date)" directory: "$(realpath "$1")" ) > "$TEMPFILE"
+( echo inventoryfile-0 at "$(date --rfc-3339=seconds --utc)" directory: "$(realpath "$1")" ) > "$TEMPFILE"
 ( cd "$1"
     {   find . -type f -exec sha384sum {} + | sort -k 2
 	echo -----------------------------------------------
     } >> "$TEMPFILE"
-    #split to two lines to avid readig and writing at the same time
+    #split to two lines to avoid reading and writing at the same time
     FOOT="inventory checksum $(sha384sum "$TEMPFILE" | sed 's/ .*//')"
     echo "$FOOT" >>  "$TEMPFILE"
 )

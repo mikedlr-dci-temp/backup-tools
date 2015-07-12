@@ -7,6 +7,14 @@ check my files against my inventory.
     and that I have made an inventory file for that directory
     when I run inventory -c on the inventory file
     then the command should succeed
+    and there should be no output
+
+    Scenario: verbose check gives full output
+    Given that I have access to basic-test-data-directory
+    and that I have made an inventory file for that directory
+    when I run inventory -c -v on the inventory file
+    then the command should succeed
+    and there should be output showing that files are okay
 
     Scenario: a file doesn't match inventory.  
     Given that I have access to basic-test-data-directory
