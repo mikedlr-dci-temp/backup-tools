@@ -8,23 +8,19 @@ when I run inventory on the test data with -o on the directory
 then the inventory file should be created
 
 Scenario: too many -o arguments 
-Given nothing much
-when I run inventory with two -o arguments
+When I run inventory with two -o arguments
 then it should abort with a failure
 
 Scenario: input file when building inventory
-Given nothing much
-when I run inventory without -c or --check and with an input file
+When I run inventory without -c or --check and with an input file
 then it should abort with a failure
 
 Scenario: output file when checking inventory
-Given nothing much
-when I run inventory with -c and with an output file
+When I run inventory with -c and with an output file
 then it should abort with a failure
 
 Scenario: with no arguments bomb out
-Given nothing much
-when I run inventory with no arguments
+When I run inventory with no arguments
 then it should abort with a failure
 
 

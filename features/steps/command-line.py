@@ -14,10 +14,6 @@ def step_impl(context):
 def step_impl(context):
     assert os.path.isfile(context.temp_file_path)
 
-@given(u'nothing much')
-def step_impl(context):
-    pass
-
 @when(u'I run inventory with no arguments')
 def step_impl(context):
     try: 
@@ -54,7 +50,4 @@ def step_impl(context):
         context.check_output=e.output
         context.check_returncode=e.returncode
 
-@then(u'it should abort with a failure')
-def step_impl(context):
-    assert ( int(context.check_returncode) and context.check_returncode > 0 )
 

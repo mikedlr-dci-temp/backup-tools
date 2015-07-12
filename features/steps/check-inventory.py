@@ -29,14 +29,6 @@ def step_impl(context):
         context.check_output=e.output
         context.check_returncode=e.returncode
 
-@then(u'the command should succeed')
-def step_impl(context):
-    assert context.check_returncode == 0
-
-@then(u'the command should fail')
-def step_impl(context):
-    assert ( int(context.check_returncode) and context.check_returncode > 0 )
-
 @then(u'print out the corrupted filename')
 def step_impl(context):
     assert re.compile(r".*\./hi", re.DOTALL).match(context.check_output)
@@ -52,10 +44,6 @@ def step_impl(context):
 @given(u'that I have made an inventory file for that directory with one additional file')
 def step_impl(context):
     context.inventory_path="features/test-data/inventory-file-with-missing"
-
-@then(u'there should be no output')
-def step_impl(context):
-    assert context.check_output==""
 
 @then(u'there should be output showing that files are okay')
 def step_impl(context):

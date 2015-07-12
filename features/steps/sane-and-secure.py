@@ -8,7 +8,3 @@ def step_impl(context):
     except subprocess.CalledProcessError as e:
         context.check_output=e.output
         context.check_returncode=e.returncode
-
-@then(u'the shellcheck command should succeed')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Then the shellcheck command should succeed')
