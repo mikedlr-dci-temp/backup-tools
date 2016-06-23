@@ -94,7 +94,7 @@ fi
 
 set -e
 TEMPFILE=$(mktemp)
-( echo inventoryfile-0 at "$(date --rfc-3339=seconds --utc)" directory: "$(realpath "$1")" ) > "$TEMPFILE"
+( echo inventoryfile-0 at "$(date --rfc-3339=seconds --utc)" directory: "$(readlink -f "$1")" ) > "$TEMPFILE"
 ( cd "$1"
     {   find . -type f -exec sha384sum {} + | sort -k 2
 	echo -----------------------------------------------
