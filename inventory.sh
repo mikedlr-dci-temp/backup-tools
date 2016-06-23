@@ -1,5 +1,21 @@
 #!/bin/bash
 
+    # inventory - record an inventory with checksums of the files in a directory
+    # Copyright (C) 2016 Michael De La Rue
+
+    # This program is free software: you can redistribute it and/or modify
+    # it under the terms of the GNU Affero General Public License as
+    # published by the Free Software Foundation, either version 3 of the
+    # License, or (at your option) any later version.
+
+    # This program is distributed in the hope that it will be useful,
+    # but WITHOUT ANY WARRANTY; without even the implied warranty of
+    # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    # GNU Affero General Public License for more details.
+
+    # You should have received a copy of the GNU Affero General Public License
+    # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 #security - according to GNU find this is the "insecure" version because
 #underlying directories could change
 #the implication is that if we run this on someone else's directory
@@ -27,11 +43,11 @@ eval set -- "$TEMP"
 usage() { 
   cat <<EOF 
 inventory - create or verify an inventory of a directory, typically for backup verification
- -h --help  - output usage informatino
+ -h --help  - output usage information
  -c --check - read inventory file and verify directory
  -v --verbose - verbose output
  -o --output <file> - output to <file>
- -x --excldude <file> - exclude filenames matching expressions in <file>
+ -x --exclude <file> - exclude filenames matching expressions in <file>
  -i --input <file> - use <file> for input (as an inventory file), together with -c
 EOF
 }
