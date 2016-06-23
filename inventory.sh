@@ -17,7 +17,7 @@
 # Note that we use `"$@"' to let each command-line parameter expand to a
 # separate word. The quotes around `$@' are essential!
 # We need TEMP as the `eval set --' would nuke the return value of getopt.
-TEMP=$(getopt -o ho:i:cv --long help,output:,input:,check,verbose -n 'inventory.sh' -- "$@" )
+TEMP=$(getopt -o ho:i:x:cv --long help,output:,input:,check,verbose -n 'inventory.sh' -- "$@" )
 
 if [ $? != 0 ] ; then echo "Argument parsing fail; terminating..." >&2 ; exit 1 ; fi
 
@@ -31,12 +31,14 @@ inventory - create or verify an inventory of a directory, typically for backup v
  -c --check - read inventory file and verify directory
  -v --verbose - verbose output
  -o --output <file> - output to <file>
+ -x --excldude <file> - exclude filenames matching expressions in <file>
  -i --input <file> - use <file> for input (as an inventory file), together with -c
 EOF
 }
 
 OFILE=""
 IFILE=""
+XFILE=""
 CHECK="false"
 VERBOSE="false"
 while true ; do
@@ -58,6 +60,13 @@ while true ; do
 			exit 1
 		    fi
 		    IFILE=$2; shift 2 ;;
+		-x|--exclude)
+		    if [ "" != "$XFILE" ]
+		    then
+			echo "Only one exclude file currently allowed.  Terminating" >&2
+			exit 1
+		    fi
+		    XFILE=$2; shift 2 ;;
 		--) shift ; break ;;
 		*) echo "Internal error!" ; exit 1 ;;
 	esac
@@ -103,11 +112,25 @@ then
     exit $SHASUMRES
 fi
 
+FINDFILTER=()
+
+if [ "" != "$XFILE" ]
+then
+    while read line           
+    do           
+	#TODO: comments
+	if [ "" != "$line" ]
+	then
+	   FINDFILTER=("${FINDFILTER[@]}" -not -path "$line")
+	fi
+    done <"$XFILE"
+fi
+
 set -e
 TEMPFILE=$(mktemp)
 ( echo inventoryfile-0 at "$(date --rfc-3339=seconds --utc)" directory: "$(readlink -f "$1")" ) > "$TEMPFILE"
 ( cd "$1"
-    {   find . -type f -exec sha384sum {} + | sort -k 2
+    {   find . -type f "${FINDFILTER[@]}" -exec sha384sum {} + | sort -k 2
 	echo -----------------------------------------------
     } >> "$TEMPFILE"
     #split to two lines to avoid reading and writing at the same time
