@@ -1,4 +1,4 @@
-import tempfile, os, subprocess
+import tempfile, os, subprocess, re
 
 @given(u'that I have a target-file that doesn\'t exist')
 def step_impl(context):
@@ -14,6 +14,10 @@ def step_impl(context):
 def step_impl(context):
     assert os.path.isfile(context.temp_file_path)
 
+@then(u'it should output a help text')
+def step_impl(context):
+    assert re.compile(r"inventory - create or verify", re.DOTALL).match(context.check_output)
+
 @when(u'I run inventory with no arguments')
 def step_impl(context):
     try: 
@@ -27,6 +31,15 @@ def step_impl(context):
 def step_impl(context):
     try: 
         context.check_output=subprocess.check_output(["./inventory.sh", "-o", "filea", "-o", "fileb"])
+        context.check_returncode=0
+    except subprocess.CalledProcessError as e:
+        context.check_output=e.output
+        context.check_returncode=e.returncode
+
+@when(u'I run inventory with --help')
+def step_impl(context):
+    try: 
+        context.check_output=subprocess.check_output(["./inventory.sh", "--help"])
         context.check_returncode=0
     except subprocess.CalledProcessError as e:
         context.check_output=e.output

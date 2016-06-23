@@ -19,6 +19,10 @@ Scenario: output file when checking inventory
 When I run inventory with -c and with an output file
 then it should abort with a failure
 
+Scenario: give help text for --help option
+When I run inventory with --help 
+then it should output a help text
+
 Scenario: with no arguments bomb out
 When I run inventory with no arguments
 then it should abort with a failure

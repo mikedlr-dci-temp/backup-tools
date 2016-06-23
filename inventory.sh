@@ -17,13 +17,23 @@
 # Note that we use `"$@"' to let each command-line parameter expand to a
 # separate word. The quotes around `$@' are essential!
 # We need TEMP as the `eval set --' would nuke the return value of getopt.
-TEMP=$(getopt -o o:i:cv --long output:,input:,check,verbose -n 'inventory.sh' -- "$@" )
+TEMP=$(getopt -o ho:i:cv --long help,output:,input:,check,verbose -n 'inventory.sh' -- "$@" )
 
 if [ $? != 0 ] ; then echo "Argument parsing fail; terminating..." >&2 ; exit 1 ; fi
 
 # Note the quotes around `$TEMP': they are essential!
 eval set -- "$TEMP"
 
+usage() { 
+  cat <<EOF 
+inventory - create or verify an inventory of a directory, typically for backup verification
+ -h --help  - output usage informatino
+ -c --check - read inventory file and verify directory
+ -v --verbose - verbose output
+ -o --output <file> - output to <file>
+ -i --input <file> - use <file> for input (as an inventory file), together with -c
+EOF
+}
 
 OFILE=""
 IFILE=""
@@ -31,6 +41,7 @@ CHECK="false"
 VERBOSE="false"
 while true ; do
 	case "$1" in
+	        -h|--help) usage; exit 0;;
 		-c|--check) CHECK="true" ; shift ;;
 		-v|--verbose) VERBOSE="true" ; shift ;;
 		-o|--output)
