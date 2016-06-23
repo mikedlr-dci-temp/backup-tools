@@ -23,7 +23,7 @@ Compared to a simple use of sha256sum
   * inventory records meta data such as the time of the backup and the directory name
   * inventory allows you to exclude files that you don't want backed up
 
-###Options
+### Options
 
     -h --help
 
@@ -70,7 +70,7 @@ checksumming then they could force you to checksum a file you weren't
 expecting to checksum and prove that you have access to that file.
 This doesn't seem serious but don't do that anyway.
 
-## Installation (if you are root)
+## Installation (for local machine admis)
 
 run
 
