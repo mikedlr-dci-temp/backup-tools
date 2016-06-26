@@ -31,7 +31,7 @@ output usage information
 
  -c --check
 
-Read's an already existing inventory file and verifies the files
+Reads an already existing inventory file and verifies the files
 listed in it.  N.B. files not listed in the inventory will be ignored
 and will not trigger a warning.
 
@@ -53,7 +53,7 @@ Gives the file to read the inventory from whilst checking the inventory.
 
 Gives the name of a file to read exclude expressions from.  This
 format will probably change in a future version of inventory.
-Currently it is used directy by find and to exclude files named
+Currently it is used directly by find and to exclude files named
 '.cache' you would use an exclude pattern as follows:
 
     */.cache*
@@ -62,7 +62,7 @@ Currently it is used directy by find and to exclude files named
 
 The backup file should be secure against accidental damage but not
 against malicious modification.  If you want to verify that the
-inventory file has not been tampered with then use gpg separately to
+inventory file has not been tampered with then use GPG separately to
 sign the inventory file.
 
 If someone or something else has control of a directory that you are
@@ -70,7 +70,7 @@ checksumming then they could force you to checksum a file you weren't
 expecting to checksum and prove that you have access to that file.
 This doesn't seem serious but don't do that anyway.
 
-## Installation (for local machine admis)
+## Installation (for local machine administrators)
 
 run
 
