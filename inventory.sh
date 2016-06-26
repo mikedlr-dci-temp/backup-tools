@@ -104,8 +104,9 @@ then
 fi
 
 
-if [  "true" = "$CHECK" ]
-then
+check_inventory ()
+{
+    local check_dir="$1"
     if [ "false" = "$VERBOSE" ]
     then
 	SHAOPTS="--check --quiet"
@@ -123,15 +124,48 @@ then
 	head -n-2
     else
 	head -n-2 "$IFILE"
-    fi )| tail -n+2 | (cd "$1"; sha384sum $SHAOPTS - )
+    fi )| tail -n+2 | (cd "$check_dir"; sha384sum $SHAOPTS - )
     SHASUMRES=$?
     exit $SHASUMRES
+}
+
+create_inventory ()
+{
+    local record_dir="$1"
+    set -e
+    local TEMPFILE
+    TEMPFILE=$(mktemp)
+    ( echo inventoryfile-0 at "$(date --rfc-3339=seconds --utc)" directory: "$(readlink -f "$1")" ) > "$TEMPFILE"
+    ( cd "$record_dir"
+	{   find . -type f "${FINDFILTER[@]}" -exec sha384sum {} + | sort -k 2
+	    echo -----------------------------------------------
+	} >> "$TEMPFILE"
+	#split to two lines to avoid reading and writing at the same time
+	FOOT="inventory checksum $(sha384sum "$TEMPFILE" | sed 's/ .*//')"
+	echo "$FOOT" >>  "$TEMPFILE"
+    )
+    if [ "" = "$OFILE" ]
+    then
+       cat "$TEMPFILE"
+    else
+       mv "$TEMPFILE" "$OFILE"
+    fi
+}
+
+if [  "true" = "$CHECK" ]
+then
+    check_inventory "$1"
 fi
 
 FINDFILTER=()
 
 if [ "" != "$XFILE" ]
 then
+    if [ ! -r "$XFILE" ] 
+    then
+	echo "$XFILE no such file or directory" >&2
+	exit 5
+    fi
     while read line           
     do           
 	#TODO: comments
@@ -142,20 +176,4 @@ then
     done <"$XFILE"
 fi
 
-set -e
-TEMPFILE=$(mktemp)
-( echo inventoryfile-0 at "$(date --rfc-3339=seconds --utc)" directory: "$(readlink -f "$1")" ) > "$TEMPFILE"
-( cd "$1"
-    {   find . -type f "${FINDFILTER[@]}" -exec sha384sum {} + | sort -k 2
-	echo -----------------------------------------------
-    } >> "$TEMPFILE"
-    #split to two lines to avoid reading and writing at the same time
-    FOOT="inventory checksum $(sha384sum "$TEMPFILE" | sed 's/ .*//')"
-    echo "$FOOT" >>  "$TEMPFILE"
-)
-if [ "" = "$OFILE" ]
-then
-   cat "$TEMPFILE"
-else
-   mv "$TEMPFILE" "$OFILE"
-fi
+create_inventory "$1" 
