@@ -1,0 +1,87 @@
+*/.gvfs/*
+*/.local/share/gvfs-metadata/*
+*/.Private/*
+*/.dbus/*
+*/.cache/*
+*/.Trash/*
+*/.local/share/Trash
+*/.cddb/*
+*/.aptitude/*
+*/.adobe/*
+*/.macromedia/*
+*/.xsession-errors
+*/.recently-used
+*/.recently-used.xbel
+*/.thumbnails
+*/.Xauthority
+*/.ICEauthority
+*/.gksu.lock
+*/.pulse-cookie
+*/.esd_auth
+*/.kde/share/apps/RecentDocuments/*
+*/.kde/share/apps/klipper
+*/.kde/share/apps/okular/docdata
+*/.kde/share/apps/gwenview/recentfolders
+*/.kde/share/apps/kmess/displaypics
+*/.kde/share/apps/kmess/customemoticons
+*/.mozilla/firefox/*/Cache/*
+*/.mozilla/firefox/*/minidumps/*
+*/.mozilla/firefox/*/.parentlock
+*/.mozilla/firefox/*/urlclassifier3.sqlite
+*/.mozilla/firefox/*/blocklist.xml
+*/.mozilla/firefox/*/extensions.sqlite
+*/.mozilla/firefox/*/extensions.sqlite-journal
+*/.mozilla/firefox/*/extensions.rdf
+*/.mozilla/firefox/*/extensions.ini
+*/.mozilla/firefox/*/extensions.cache
+*/.mozilla/firefox/*/XUL.mfasl
+*/.mozilla/firefox/*/XPC.mfasl
+*/.mozilla/firefox/*/xpti.dat
+*/.mozilla/firefox/*/compreg.dat
+*/.opera/temporary_downloads/*
+*/.opera/cache/*
+*/.opera/thumbnails/*
+*/.opera/opcache/*
+*/.opera/icons/*
+*/.opera/application_cache/*
+*/.opera/widgets/*/cache/*
+*/.opera/lock/*
+*/.komodoedit/*/codeintel/db/*
+*/.komodoedit/*/host-*/*/codeintel/*
+*/.komodoedit/*/XRE/Cache/*
+*/.komodoedit/*/XRE/.activatestate/komodo edit/Crash Reports/*
+*/.komodoedit/*/XRE/.activatestate/komodo edit/*/Cache/*
+*/.komodoedit/*/XRE/.activatestate/komodo edit/*/minidump/*
+*/.komodoedit/*/XRE/.parentlock
+*/.komodoedit/*/XRE/extensions.rdf
+*/.komodoedit/*/XRE/extensions.ini
+*/.komodoedit/*/XRE/extensions.cache
+*/.komodoedit/*/XRE/XPC.mfasl
+*/.komodoedit/*/XRE/XUL.mfasl
+*/.komodoedit/*/XRE/xpti.dat
+*/.komodoedit/*/XRE/pluginreg.dat
+*/.komodoedit/*/XRE/compreg.dat
+*/.komodoedit/*/XRE/*.sqlite-journal
+*/.komodoedit/*/pystdout.log
+*/.komodoedit/*/pystderr.log
+*/.komodoedit/*/history.sqlite.bak
+*/.komodoedit/*/running.lock
+*/.komodoedit/*/mutex.lock
+*/.komodoedit/*/*.xmlc
+*/.komodoedit/*/startup-env.tmp
+*/.komoeoedit/*/commandments.fifo
+*/.komoeoedit/*/history.sqlite
+*/.gnupg/rnd
+*/.gnupg/random_seed
+*/.gnupg/.#*
+*/.gnupg/*.lock
+*/.gnupg/gpg-agent-info-*
+*/.config/google-chrome/Default/Local Storage
+*/.config/google-chrome/Default/Session Storage
+*/.config/google-chrome/Default/Application Cache
+*/.config/google-chrome/Default/History Index *
+*/.pulse/icons/*
+*/.java/deployment/cache/*
+*/.icedteaplugin/*
+*/.icedtea/*
+*/.gnome2/epiphany/favicon_cache/*
