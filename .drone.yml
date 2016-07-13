@@ -1,0 +1,11 @@
+build:
+	image: ubuntu:14.04
+	commands:
+	  - cat /etc/issue
+	  - sudo apt-get install lsb-release
+	  - lsb_release -da
+	  - sudo apt-get install shellcheck
+	  - pip install -r requirements.txt --use-mirrors
+	  - behave
+
+	  
